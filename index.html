@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parameter Calculator</title>
+</head>
+<body>
+    <div>
+    <h1>BLDC Parameter</h1>
+   
+        <label for="weight">Total Weight of Drone (gm) : </label>
+        <input id="weight" type="number">
+        <label for="r">Thrust to Weight Ratio : </label>
+        <input id="r" type="range" min='2' max="2.2" step="0.001" value="0">
+        <span id='ratio'>2</span>
+        <p>Thrust at Each motor : <span id="thrust"></span> </p> 
+    </div>
+    <div>
+    <h1>ESC Parameter</h1>
+   
+        <label for="amp_rating">Maximum Current Draw (Amp) :  </label>
+        <input id="amp_rating" type="number">
+        <label for="y"> Ratio of ESC/Motor Max Current : </label>
+        <input id="y" type="range" min='1.2' max="1.5" step="0.001" value="0">
+        <span id='y_ratio'>1.2</span>
+        <p>C rating of ESC (Amp) : <span id="amp"></span> </p> 
+    </div>
+    <div>
+    <h1>Minimum Time of Flight </h1>
+   
+        <label for="c_rating">Maximum Current Draw (Amp) :  </label>
+        <input id="c_rating" type="number">
+        <label for="capacity">Battery Capacity (mAh) :  </label>
+        <input id="capacity" type="number">
+        <button id="calc_tof" onclick="calc_tof()">Calculate</button>
+        <p>Minimum Time of Flight (min): <span id="tof"></span> </p> 
+    </div>
+
+    <script>
+        let r =2
+        let weight = 0
+        const r_Handler =(e)=>{
+            r = e.target.value 
+            document.getElementById('ratio').innerHTML= r
+            document.getElementById('thrust').innerHTML =  weight * r /4
+           }
+        document.getElementById('r').addEventListener('input',r_Handler)
+        const weight_Handler = function(e) {
+           weight = e.target.value 
+           thrust.innerHTML = weight * r /4;
+           }
+
+        document.getElementById('weight').addEventListener('input', weight_Handler);
+
+        let y =1.2
+        let amp = 0
+        const y_Handler =(e)=>{
+            y = e.target.value 
+            document.getElementById('y_ratio').innerHTML= y
+            document.getElementById('amp').innerHTML = amp  * y 
+           }
+        document.getElementById('y').addEventListener('input',y_Handler)
+        const amp_Handler = function(e) {
+           amp = e.target.value 
+           document.getElementById('amp').innerHTML =  amp  * y ;
+           }
+
+        document.getElementById('amp_rating').addEventListener('input', amp_Handler);
+
+        var c_rating = 0
+        var capacity = 0
+
+        const c_rating_Handler =(e)=>{
+            
+         c_rating = e.target.value
+        }
+        const capacity_Handler =(e)=>{
+         capacity = e.target.value
+        }
+        document.getElementById('c_rating').addEventListener('input',c_rating_Handler)
+        document.getElementById('capacity').addEventListener('input',capacity_Handler)
+
+        const calc_tof =()=>{
+            document.getElementById('tof').innerHTML = 0.001*capacity*60/c_rating
+        }
+    </script>
+    
+</body>
+</html>
